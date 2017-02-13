@@ -52,7 +52,11 @@ if(!empty($signedRequest)){
 }
 
 //loaded first through Facebook app
-if(parse_url($_SERVER["HTTP_REFERER"])["host"]=="staticxx.facebook.com"){
+if(!empty($_SERVER["HTTP_REFERER"])&&parse_url($_SERVER["HTTP_REFERER"])["host"]=="staticxx.facebook.com"){
+	$isFacebookPortal = true;
+}
+
+if(!empty($_SESSION['access_method'])&&$_SESSION['access_method']==FACEBOOK_TEMPLATE){
 	$isFacebookPortal = true;
 }
 
@@ -77,6 +81,5 @@ else{
 	//figure out a way to revert users back to desktop mode?
 }
 
-$isFacebookPortal = ($_SESSION['access_method'] == FACEBOOK_TEMPLATE);
 
 ?>
