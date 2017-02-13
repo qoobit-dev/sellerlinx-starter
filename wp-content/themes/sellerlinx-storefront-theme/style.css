@@ -1,0 +1,83 @@
+/*
+Theme Name:   	Sellerlinx Storefront Theme
+Theme URI:    	https://github.com/stuartduff/storefront-child-theme
+Author:       	Warren Wang
+Author URI:     https://qoobit.com
+Template:     	storefront
+Description:  	This is Sellerlinx's child theme for WooThemes StoreFront theme
+Version:      	1.0.0
+License:      	GNU General Public License v2 or later
+License URI:  	http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  	storefront
+Tags:         	
+This theme, like WordPress, is licensed under the GPL.
+Storefront is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic, Inc.
+FontAwesome License: SIL Open Font License - http://scripts.sil.org/OFL
+Images License: GNU General Public License v2 or later
+*/
+
+.main-navigation{
+	display: none;
+}
+.category-navigation{
+	display: block;
+}
+.woocommerce-active .site-header .site-search{
+ 	float:left;
+}	
+
+.woocommerce-active .site-header .secondary-navigation{
+	float: right;
+}
+
+
+.right-sidebar .content-area{
+	margin-right: 0px;
+	width: 100%;
+}
+
+.site-info{
+	display: none;
+}
+
+button.menu-toggle{
+	padding:.6180469716em .875em .6180469716em  1.95em;
+}
+.main-navigation .primary-navigation{
+	display: block;
+}
+.main-navigation.toggled .primary-navigation{ /*.main-navigation.toggled .menu>ul:not(.nav-menu), .main-navigation.toggled ul[aria-expanded=true]{*/
+	max-height: 1750px;
+}
+
+
+@media (min-width: 768px){
+	.woocommerce-active .site-header .site-search{
+	 	float:left;
+	 	
+	}
+
+	.right-sidebar .content-area{
+		margin-right: 0px;
+		width: 100%;
+	}
+
+}
+
+/** 
+  * Facebook specific CSS 
+  */
+
+
+
+@media (min-width: 768px){
+	
+	.woocommerce-active .facebook-site-header .site-search{
+		width: 250px;
+	}
+	
+	.woocommerce-active .facebook-site-header .secondary-navigation{
+		margin-right: 50px;
+		width: 250px;
+	}
+}
