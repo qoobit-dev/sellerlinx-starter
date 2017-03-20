@@ -51,6 +51,61 @@ button.menu-toggle{
 }
 
 
+#menu-sitemap{
+	margin: 0px;
+	padding: 0px;
+	float: right;
+}
+#menu-sitemap li{
+	list-style: none;
+	margin: 0 10px;	
+	float:left;
+}
+#menu-sitemap li a{
+	font-weight: normal;
+}
+
+.home.blog .site-header, .home.page:not(.page-template-template-homepage) .site-header, .home.post-type-archive-product .site-header, .no-wc-breadcrumb .site-header{
+	margin-bottom: 0px;
+}
+
+
+.banners{
+	position: relative;
+	overflow: hidden;
+}
+.banner{
+	background-position: center;
+	position: absolute;
+	z-index: 1;
+}
+
+.banners.contained{
+	margin:0px auto;
+	max-width: 72.38em;
+
+}
+.storefront-handheld-footer-bar ul li.contact>a:before{
+	content:'';
+	background-image:url(img/ic_chat_white_48dp.png);
+	width:30px;
+	height: 30px;
+	position: absolute;
+	background-size: 100%;
+	left:50%;
+	margin-left: -15px;
+	top:50%;
+	margin-top: -15px;
+
+}
+
+
+.home .content-area{
+	padding-top:2.617924em;
+}
+
+
+
 @media (min-width: 768px){
 	.woocommerce-active .site-header .site-search{
 	 	float:left;

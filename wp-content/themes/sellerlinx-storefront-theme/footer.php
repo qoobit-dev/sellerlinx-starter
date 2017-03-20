@@ -21,7 +21,7 @@ global $isFacebookPortal;
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="col-full">
-
+			
 			<?php
 			/**
 			 * Functions hooked in to storefront_footer action
@@ -43,6 +43,7 @@ global $isFacebookPortal;
 
 <?php wp_footer(); ?>
 
+<?php do_action( 'storefront_before_end' ); ?>
 </body>
 </html>
 <?php ob_flush();?>

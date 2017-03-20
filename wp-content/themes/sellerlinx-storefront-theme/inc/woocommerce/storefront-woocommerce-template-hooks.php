@@ -46,6 +46,8 @@ add_action( 'woocommerce_before_shop_loop',       'storefront_sorting_wrapper_cl
 
 add_action( 'storefront_footer',                  'storefront_handheld_footer_bar',         999 );
 */
+
+
 /**
  * Products
  *
@@ -63,9 +65,10 @@ add_action( 'woocommerce_after_shop_loop_item_title',      'woocommerce_show_pro
  * @see  storefront_product_search()
  * @see  storefront_header_cart()
  */
+/*
 add_action( 'storefront_facebook_header', 'storefront_facebook_product_search', 10 );
 add_action( 'storefront_facebook_header', 'storefront_facebook_header_cart',    30 );
-
+*/
 /**
  * Structured Data
  *

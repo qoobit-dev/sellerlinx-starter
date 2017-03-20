@@ -61,7 +61,6 @@ else $isFacebookTemplate = false;
 		/**
 		 * Functions hooked into storefront_facebook_header action
 		 *
-		 
 		 */
 			do_action( 'storefront_facebook_header' ); 
 
@@ -69,6 +68,7 @@ else $isFacebookTemplate = false;
 
 		</div>
 	</header><!-- #masthead -->
+	
 	<?php
 	/**
 	 * Functions hooked in to storefront_before_content
