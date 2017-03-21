@@ -3,7 +3,7 @@
  * Plugin Name:     CPT-onomies: Using Custom Post Types as Taxonomies
  * Plugin URI:      http://wordpress.org/plugins/cpt-onomies/
  * Description:     A CPT-onomy is a taxonomy built from a custom post type, using the post titles as the taxonomy terms. Create custom post types using the CPT-onomies custom post type manager or use post types created by themes or other plugins.
- * Version:         1.3.5
+ * Version:         1.3.6
  * Author:          Rachel Carden
  * Author URI:      https://bamadesigner.com
  * License:         GPL-2.0+
@@ -18,24 +18,24 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // If you define them, will they be used?
-define( 'CPT_ONOMIES_VERSION', '1.3.4' );
+define( 'CPT_ONOMIES_VERSION', '1.3.6' );
 define( 'CPT_ONOMIES_PLUGIN_DIRECTORY_URL', 'http://wordpress.org/extend/plugins/cpt-onomies/' );
 define( 'CPT_ONOMIES_PLUGIN_FILE', 'cpt-onomies/cpt-onomies.php' );
 define( 'CPT_ONOMIES_OPTIONS_PAGE', 'custom-post-type-onomies' ); // @TODO remove when we create admin class
 define( 'CPT_ONOMIES_POSTMETA_KEY', '_custom_post_type_onomies_relationship' ); // @TODO remove when we create admin class
 
-// If we build them, they will load
+// If we build them, they will load.
 require_once plugin_dir_path( __FILE__ ) . 'cpt-onomy.php';
 require_once plugin_dir_path( __FILE__ ) . 'manager.php';
 require_once plugin_dir_path( __FILE__ ) . 'widgets.php';
 
-// We only need these in the admin
+// We only need these in the admin.
 if ( is_admin() ) {
 	require_once plugin_dir_path( __FILE__ ) . 'admin.php';
 	require_once plugin_dir_path( __FILE__ ) . 'admin-settings.php';
 }
 
-// Extend all the things
+// Extend all the things.
 require_once plugin_dir_path( __FILE__ ) . 'extend/gravity-forms-custom-post-types.php';
 
 /**
@@ -127,7 +127,7 @@ class CPT_onomies {
 	 */
 	public function install() {
 
-		/**
+		/*
 		 * Rewrite rules can be a pain in the ass
 		 * so let's flush them out and start fresh.
 		 */
@@ -149,7 +149,7 @@ class CPT_onomies {
 	 */
 	public function upgrader_process_complete( $upgrader, $upgrade_info ) {
 
-		/**
+		/*
 		 * For some reason I find myself having to flush my
 		 * rewrite rules whenever I upgrade WordPress so just
 		 * helping everyone out by taking care of this automatically
@@ -158,7 +158,7 @@ class CPT_onomies {
 
 	}
 
-	/**
+	/*
 	 * Internationalization FTW.
 	 * Load our textdomain.
 	 *
@@ -171,7 +171,7 @@ class CPT_onomies {
 
 }
 
-/**
+/*
  * Returns the instance of our main CPT_onomies class.
  *
  * Will come in handy when we need to access the

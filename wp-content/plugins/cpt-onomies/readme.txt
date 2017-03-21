@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bamad
 Tags: custom post type, custom, post, post type, types, tax, taxonomy, taxonomies, cpt-onomy, cpt-onomies, cptonomies, custom post type taxonomies, custom post type as taxonomy, custom post types as taxonomies, relationships, relate, multisite
 Requires at least: 3.1
 Tested up to: 4.6.1
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,7 +90,7 @@ Here's an example of the filter. More information, check out the "Help" tab in t
 add_filter( 'custom_post_type_onomies_meta_box_format', 'my_website_custom_post_type_onomies_meta_box_format', 1, 3 );
 function my_website_custom_post_type_onomies_meta_box_format( $format, $taxonomy, $post_type ) {
 
-   /**
+   /*
     * When editing a post with the post type 'movies',
     * we want to assign the 'actors' CPT-onomy terms with an autocomplete box.
     */
@@ -133,6 +133,9 @@ If FAQ didn't cover your problem, refer to the following resources:
 5. The admin allows you to sort and filter your posts by CPT-onomy terms.
 
 == Changelog ==
+
+= 1.3.6 =
+* Fixing memory leak issues. Still have some fixes remaining but wanted to get something out while they're being worked on.
 
 = 1.3.5 =
 * Fixes plugin to work with 4.6.1
@@ -258,6 +261,9 @@ If FAQ didn't cover your problem, refer to the following resources:
 * Plugin launch!
 
 == Upgrade Notice ==
+
+= 1.3.6 =
+* Fixing memory leak issues. Still have some fixes remaining but wanted to get something out while they're being worked on.
 
 = 1.3.5 =
 * Fixes plugin to work with 4.6.1
