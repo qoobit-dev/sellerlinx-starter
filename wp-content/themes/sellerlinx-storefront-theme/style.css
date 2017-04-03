@@ -40,6 +40,10 @@ Images License: GNU General Public License v2 or later
 	display: none;
 }
 
+.qtranxs-lang-menu img{
+	display: none;
+
+}
 button.menu-toggle{
 	padding:.6180469716em .875em .6180469716em  1.95em;
 }
@@ -78,6 +82,22 @@ button.menu-toggle{
 	background-position: center;
 	position: absolute;
 	z-index: 1;
+	background-repeat: no-repeat;
+}
+.banner-video{
+	position: absolute;
+	z-index: 1;
+}
+.banner .overlay{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+}
+.banner .container{
+	position: absolute;
+	width: 100%;
+	z-index: 3;
 }
 
 .banners.contained{
@@ -103,9 +123,53 @@ button.menu-toggle{
 .home .content-area{
 	padding-top:2.617924em;
 }
+a.social-icon{
+	line-height: 32px;
+}
+a.social-icon::before{
+	display: inline-block;
+	vertical-align: middle;
+	content: '';
+	background-size: auto 100%;
+	width:24px;
+	height:24px;
+}
+a.facebook-icon::before{
+	background-image: url(img/social.png);
+	background-position: 0px 0px;	
+}
+a.twitter-icon::before{
+	background-image: url(img/social.png);
+	background-position: -24px 0px;	
+}
+a.youtube-icon::before{
+	background-image: url(img/social.png);
+	background-position: -48px 0px;	
+}
+a.vimeo-icon::before{
+	background-image: url(img/social.png);
+	background-position: -72px 0px;	
+}
+a.instagram-icon::before{
+	background-image: url(img/social.png);
+	background-position: -96px 0px;	
+}
+a.weibo-icon::before{
+	background-image: url(img/social.png);
+	background-position: -120px 0px;	
+}
+@media (max-width: 67.141em){
+	#content .col-full{
+		margin: 0 auto;
+		padding: 0 2.617924em;
+	}
+}
 
-
-
+@media (max-width: 767px){
+	.site-footer{
+		margin-bottom: 70px;
+	}
+}
 @media (min-width: 768px){
 	.woocommerce-active .site-header .site-search{
 	 	float:left;
@@ -117,15 +181,14 @@ button.menu-toggle{
 		width: 100%;
 	}
 
-}
-
-/** 
-  * Facebook specific CSS 
-  */
 
 
 
-@media (min-width: 768px){
+	/** 
+	  * Facebook specific CSS 
+	  */
+
+
 	
 	.woocommerce-active .facebook-site-header .site-search{
 		width: 250px;

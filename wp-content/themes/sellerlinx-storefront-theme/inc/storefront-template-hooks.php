@@ -9,6 +9,8 @@
  * General
  *
  */
+add_action( 'sellerlinx_meta', 'sellerlinx_seo', 10 );
+add_action( 'storefront_header', 'sellerlinx_home_videos', 10 );
 add_action( 'storefront_before_content', 'sellerlinx_home_banners', 10 );
 //add_action( 'storefront_before_content', 'storefront_header_widget_region', 10 );
 //add_action( 'storefront_sidebar',        'storefront_get_sidebar',          10 );
@@ -41,7 +43,9 @@ add_action( 'wp_head',                  'sellerlinx_google_analytics',         9
  */
 //add_action( 'storefront_footer', 'storefront_footer_widgets', 10 );
 //add_action( 'storefront_footer', 'storefront_credit',         20 );
+add_action( 'storefront_footer',                  'storefront_handheld_footer_social_links',     10 );
 add_action( 'storefront_footer',                  'storefront_handheld_footer_sitemap',     20 );
+add_action( 'storefront_footer',                  'sellerlinx_languages',         999 );
 add_action( 'storefront_footer',                  'storefront_handheld_footer_bar',         999 );
 
 

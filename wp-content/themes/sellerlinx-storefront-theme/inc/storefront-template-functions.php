@@ -6,6 +6,192 @@
  */
 
 
+
+if ( ! function_exists( 'sellerlinx_languages' ) ) {
+	function sellerlinx_languages() {
+		?>
+<script>
+jQuery(document).ready(function(){
+    jQuery(".qtranxs-lang-menu a").first().hide();
+});
+</script>
+         <?php
+    }
+}
+
+
+if ( ! function_exists( 'sellerlinx_seo' ) ) {
+	/**
+	 * Home Page Banners
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	function sellerlinx_seo() {
+		?>
+<meta name="description" content="" />
+<meta property="og:title" content=""/>
+<meta property="og:site_name" content="" />
+<meta property="og:type" content="article"/>
+<meta property="og:image" content=""/>
+<meta property="og:url" content=""/>
+<meta property="og:description" content=""/>
+<?php
+	}
+
+}
+
+
+
+
+if ( ! function_exists( 'sellerlinx_home_videos' ) ) {
+	/**
+	 * Home Page Banners
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	function sellerlinx_home_videos() {
+		$height = get_theme_mod( 'sellerlinx_banner_height' ); 
+		$banner_size = get_theme_mod( 'sellerlinx_banner_size' ); 
+		?>
+<script>
+
+var videoPlayers = new Array();
+var codes = new Array();
+var videoCount = 0;
+
+
+function videoResize(){
+    var bannerWidth = jQuery(".banners").width();
+    var bannerHeight = jQuery(".banners").height();
+    var windowWidth = jQuery(window).width();
+
+    var windowAspect = windowWidth/bannerHeight;
+    var bannerAspect = bannerWidth/bannerHeight;
+    var videoAspect = 16/9;
+    var w = 0;
+    var h = 0;
+    var t = 0;
+    var l = 0;
+    
+
+
+    <?php if($banner_size=="100% auto"): ?>
+	w = windowWidth;
+    h = w/videoAspect;
+    l = 0;
+
+    //vertical align to top
+    t = (bannerHeight - h) / 2;
+
+    jQuery(".banner-video").css("top",t+"px");
+    jQuery(".banner-video").css("left",l+"px");
+    jQuery(".banner-video").css("height",h+"px");
+    jQuery(".banner-video").css("width",w+"px");
+    jQuery(".banner-video").css("min-width",w+"px");
+	<?php elseif($banner_size=="auto 100%"): ?>
+	h = bannerHeight;
+	w = h*videoAspect;
+	t = 0;
+	
+    //vertical align to top
+    l = (bannerWidth - w) / 2;
+
+    jQuery(".banner-video").css("top",t+"px");
+    jQuery(".banner-video").css("left",l+"px");
+    jQuery(".banner-video").css("height",h+"px");
+    jQuery(".banner-video").css("width",w+"px");
+    jQuery(".banner-video").css("min-width",w+"px");
+	<?php elseif($banner_size=="auto"): ?>
+	t = 0;
+	l = 0;
+	jQuery(".banner-video").css("top",t+"px");
+    jQuery(".banner-video").css("left",l+"px");
+    jQuery(".banner-video").css("height","100%");
+    jQuery(".banner-video").css("width","100%");
+    jQuery(".banner-video").css("min-width","100%");
+	<?php elseif($banner_size=="cover"): ?>
+	w = bannerWidth;
+	h = bannerWidth/videoAspect;
+	//need to crop top bottom
+    if(Math.ceil(h)>jQuery(".banners").height()){
+    	l = 0;
+    	t = -(h-jQuery(".banners").height())/2;
+    }
+    //need to crop left right
+    else{
+    	h = bannerHeight;
+    	w = h*videoAspect;
+
+    	t = 0;
+    	l = -(w-jQuery(".banners").width())/2;
+    }
+
+    jQuery(".banner-video").css("top",t+"px");
+    jQuery(".banner-video").css("left",l+"px");
+    jQuery(".banner-video").css("height",h+"px");
+    jQuery(".banner-video").css("width",w+"px");
+    jQuery(".banner-video").css("min-width",w+"px");
+    <?php endif;?>
+
+	
+
+}
+jQuery(document).ready(function(){videoResize();});
+jQuery(window).resize(function(){videoResize();});
+
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function onYouTubeIframeAPIReady() {
+   
+    for(var i = 0;i<videoPlayers.length;i++){
+        videoPlayers[i]= new YT.Player('video-'+i, {
+              width: 'auto',
+              height: 'auto',
+              videoId: codes[i],
+              playerVars: { 'autoplay': 1,'rel':0,'showinfo':0,'controls':0 },
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+              }
+            });
+
+        videoPlayers[i].index = i;
+    }
+	
+	videoResize();
+}
+
+function onPlayerReady(event) {
+    event.target.mute();
+    event.target.setPlaybackQuality("hd1080");
+}
+
+function onPlayerStateChange(event) {
+	if (event.data == YT.PlayerState.PLAYING) {
+		console.log("PLAYING");
+	}
+	if (event.data == YT.PlayerState.PAUSED) {
+		console.log("PAUSED");
+	}
+	if (event.data == YT.PlayerState.ENDED) {
+		console.log("ENDED");
+		var index = event.target.index;
+		videoPlayers[index].loadVideoById(codes[index]);
+		videoPlayers[index].setPlaybackQuality("hd1080");
+	}
+	
+}
+</script>
+		<?php
+	}
+}
+
+
 if ( ! function_exists( 'sellerlinx_home_banners' ) ) {
 	/**
 	 * Home Page Banners
@@ -32,18 +218,24 @@ var currentBanner = 0;
 var nextBannerIndex;
 
 jQuery(document).ready(function(){
-	interval = setInterval(function(){nextBanner();},intervalTime);	
+	
 	bannerCount = jQuery(".banners").children().length;
+
+	if(bannerCount>1){
+		interval = setInterval(function(){nextBanner();},intervalTime);		
+	}
+	
+
 	if(bannerCount==0) {
 		jQuery(".banners").hide();
 	}
 	else{
-		jQuery(".banner").hide();
-		jQuery(".banners").children().first().show();	
+		//jQuery(".banner").hide();
+		//jQuery(".banners").children().first().show();	
 	}
 	});
 
-<?php $transition = get_theme_mod( 'sellerlinx_banner_transitions'); ?>
+<?php $transition = get_theme_mod( 'sellerlinx_banner_transition'); ?>
 function nextBanner(){
 	clearInterval(interval);
 	interval = setInterval(function(){nextBanner();},intervalTime);
@@ -58,10 +250,10 @@ function nextBanner(){
 	jQuery(".banners").children().eq(currentBanner).css("zIndex","2");
 	jQuery(".banners").children().eq(nextBannerIndex).css("zIndex","3");
 	jQuery(".banners").children().eq(nextBannerIndex).css("opacity","0");
-	jQuery(".banners").children().eq(nextBannerIndex).show();
+	//jQuery(".banners").children().eq(nextBannerIndex).show();
 	jQuery(".banners").children().eq(nextBannerIndex).fadeTo( 500 , 1, function() {
 	    jQuery(".banners").children().eq(currentBanner).css("zIndex","1");
-	    jQuery(".banners").children().eq(currentBanner).hide();
+	    //jQuery(".banners").children().eq(currentBanner).hide();
 	    currentBanner = nextBannerIndex;
 	  });
 	<?php elseif($transition=="slide-horizontal"):?>
@@ -69,12 +261,12 @@ function nextBanner(){
 	jQuery(".banners").children().eq(currentBanner).css("left","0px");
 	jQuery(".banners").children().eq(nextBannerIndex).css("zIndex","3");
 	jQuery(".banners").children().eq(nextBannerIndex).css("left",jQuery(".banner").width());
-	jQuery(".banners").children().eq(nextBannerIndex).show();
+	//jQuery(".banners").children().eq(nextBannerIndex).show();
 	jQuery(".banners").children().eq(nextBannerIndex).animate({
 		left:"0"
 	}, 500 , function() {
 	    jQuery(".banners").children().eq(currentBanner).css("zIndex","1");
-	    jQuery(".banners").children().eq(currentBanner).hide();
+	    //jQuery(".banners").children().eq(currentBanner).hide();
 	    currentBanner = nextBannerIndex;
 	  });
 	<?php elseif($transition=="slide-vertical"):?>
@@ -82,12 +274,12 @@ function nextBanner(){
 	jQuery(".banners").children().eq(currentBanner).css("top","0px");
 	jQuery(".banners").children().eq(nextBannerIndex).css("zIndex","3");
 	jQuery(".banners").children().eq(nextBannerIndex).css("top",-jQuery(".banner").height());
-	jQuery(".banners").children().eq(nextBannerIndex).show();
+	//jQuery(".banners").children().eq(nextBannerIndex).show();
 	jQuery(".banners").children().eq(nextBannerIndex).animate({
 		top:"0"
 	}, 500 , function() {
 	    jQuery(".banners").children().eq(currentBanner).css("zIndex","1");
-	    jQuery(".banners").children().eq(currentBanner).hide();
+	    //jQuery(".banners").children().eq(currentBanner).hide();
 	    currentBanner = nextBannerIndex;
 	  });
 	<?php endif;?>
@@ -190,7 +382,7 @@ if ( ! function_exists( 'sellerlinx_background' ) ) {
 		?>
 		<style>
 		#content .col-full{
-			background-color:<?php echo get_theme_mod( 'sellerlinx_content_background_color' );?>;
+			background-color:#<?php echo get_theme_mod( 'sellerlinx_content_background_color' );?>;
 		}
 		body.custom-background{
 			background-image:url(<?php echo get_theme_mod( 'sellerlinx_background_url' );?>);
@@ -201,6 +393,14 @@ if ( ! function_exists( 'sellerlinx_background' ) ) {
 		}
 		</style>
 		<?php
+		if(!empty(get_theme_mod( 'sellerlinx_background_url' ))):?>
+		<script>
+		jQuery(document).ready(function(){
+			jQuery("body").addClass('custom-background');
+		});
+		</script>
+<?php
+		endif;
 	}
 }
 
@@ -398,6 +598,21 @@ if ( ! function_exists( 'storefront_facebook_header_cart' ) ) {
 	}
 }
 
+
+if ( ! function_exists( 'storefront_handheld_footer_social_links' ) ) {
+	/**
+	 * Display Header Cart
+	 *
+	 * @since  1.0.0
+	 * @uses  storefront_is_woocommerce_activated() check if WooCommerce is activated
+	 * @return void
+	 */
+	function storefront_handheld_footer_social_links() {
+		if ( is_active_sidebar( 'sidebar-social-links' ) ) :
+			dynamic_sidebar( 'sidebar-social-links' );
+		endif;		
+	}
+}
 
 if ( ! function_exists( 'storefront_handheld_footer_sitemap' ) ) {
 	/**

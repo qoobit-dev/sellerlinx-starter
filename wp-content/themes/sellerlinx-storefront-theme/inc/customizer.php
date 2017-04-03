@@ -46,6 +46,42 @@ function sellerlinx_customize_register( $wp_customize ) {
 		) ) 
 	);
 
+
+
+
+	/**
+	 * WooCommerce Customization
+	 */
+	$wp_customize->add_section( 'sellerlinx_keys' , array(
+		'title'      			=> __( 'Keys', 'storefront' ),
+		'priority'   			=> 40,
+	) );
+
+	/**
+	 * WooComemrce Key Settings
+	 */
+	$wp_customize->add_setting( 'sellerlinx_woo_consumer_key', array(
+		'default'           	=> apply_filters( 'sellerlinx_default_woo_consumer_key', 'ck_' ),
+	) );
+
+	$wp_customize->add_control( 'sellerlinx_woo_consumer_key', array(
+		'label'	   				=> __( 'WooCommerce Consumer Key', 'storefront' ),
+		'section'  				=> 'sellerlinx_keys',
+		'settings' 				=> 'sellerlinx_woo_consumer_key',
+		'priority' 				=> 10,
+	) );
+
+	$wp_customize->add_setting( 'sellerlinx_woo_consumer_secret', array(
+		'default'           	=> apply_filters( 'sellerlinx_default_woo_consumer_secret', 'cs_' ),
+	) );
+
+	$wp_customize->add_control( 'sellerlinx_woo_consumer_secret', array(
+		'label'	   				=> __( 'WooCommerce Consumer Secret', 'storefront' ),
+		'section'  				=> 'sellerlinx_keys',
+		'settings' 				=> 'sellerlinx_woo_consumer_secret',
+		'priority' 				=> 10,
+	) );
+
 	/**
 	 * Banner Customization
 	 */
@@ -55,7 +91,7 @@ function sellerlinx_customize_register( $wp_customize ) {
 	) );
 
 	/**
-	 * Standard Column Settings
+	 * Banner Settings
 	 */
 	$wp_customize->add_setting( 'sellerlinx_banner_height', array(
 		'default'           	=> apply_filters( 'sellerlinx_default_banner_height', '500' ),
@@ -103,14 +139,14 @@ function sellerlinx_customize_register( $wp_customize ) {
 		)
 	) );
 
-	$wp_customize->add_setting( 'sellerlinx_banner_transitions', array(
+	$wp_customize->add_setting( 'sellerlinx_banner_transition', array(
 		'default'           	=> apply_filters( 'sellerlinx_default_banner_transition', 'fade' ),
 	) );
 
-	$wp_customize->add_control( 'sellerlinx_banner_transitions', array(
+	$wp_customize->add_control( 'sellerlinx_banner_transition', array(
 		'label'	   				=> __( 'Transition', 'storefront' ),
 		'section'  				=> 'sellerlinx_banners',
-		'settings' 				=> 'sellerlinx_banner_transitions',
+		'settings' 				=> 'sellerlinx_banner_transition',
 		'priority' 				=> 10,
 		'type'     => 'radio',
 		'choices'  => array(
@@ -158,7 +194,7 @@ function sellerlinx_customize_register( $wp_customize ) {
 		'priority'   			=> 40,
 	) );
 	/**
-	 * Standard Column Settings
+	 * Logo Settings
 	 */
 	$wp_customize->add_setting( 'sellerlinx_logo_url', array(
 		'default'           	=> apply_filters( 'sellerlinx_default_logo', 'https://woo.sellerlinx.com/img/logo.png' ),
@@ -171,7 +207,7 @@ function sellerlinx_customize_register( $wp_customize ) {
 		'priority' 				=> 10,
 	) );
 	/**
-	 * Standard Column Settings
+	 * Icon Settings
 	 */
 	$wp_customize->add_setting( 'sellerlinx_icon_url', array(
 		'default'           	=> apply_filters( 'sellerlinx_default_icon', 'https://woo.sellerlinx.com/img/icon1024.png' ),
