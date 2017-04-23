@@ -103,6 +103,17 @@ function sellerlinx_customize_register( $wp_customize ) {
 		'settings' 				=> 'sellerlinx_banner_height',
 		'priority' 				=> 10,
 	) );
+
+	$wp_customize->add_setting( 'sellerlinx_mobile_banner_height', array(
+		'default'           	=> apply_filters( 'sellerlinx_default_banner_height', '500' ),
+	) );
+
+	$wp_customize->add_control( 'sellerlinx_mobile_banner_height', array(
+		'label'	   				=> __( 'Mobile Height', 'storefront' ),
+		'section'  				=> 'sellerlinx_banners',
+		'settings' 				=> 'sellerlinx_mobile_banner_height',
+		'priority' 				=> 10,
+	) );
 	
 
 	$wp_customize->add_setting( 'sellerlinx_banner_size', array(
@@ -182,9 +193,19 @@ function sellerlinx_customize_register( $wp_customize ) {
 		'label'	   				=> __( 'Google Analytics', 'storefront' ),
 		'section'  				=> 'sellerlinx_tracking',
 		'settings' 				=> 'sellerlinx_google_analytics',
-		'type'					=> 'textarea',
+		'type'					=> 'text',
 		'priority' 				=> 10,
 	) );
+
+	$wp_customize->add_setting( 'sellerlinx_google_remarketing_tag', array() );
+	$wp_customize->add_control( 'sellerlinx_google_remarketing_tag', array(
+		'label'	   				=> __( 'Google Remarketing Tag', 'storefront' ),
+		'section'  				=> 'sellerlinx_tracking',
+		'settings' 				=> 'sellerlinx_google_remarketing_tag',
+		'type'					=> 'text',
+		'priority' 				=> 10,
+	) );
+
 
 	/**
 	 * Additional Customization
@@ -290,8 +311,25 @@ function sellerlinx_customize_register( $wp_customize ) {
 		'priority' 				=> 10,
 		'type'     => 'radio',
 		'choices'  => array(
-			'scroll'  => 'scroll',
+			'scroll'  => 'Scroll',
 			'fixed' => 'Fixed',
+		)
+	) );
+
+
+	$wp_customize->add_setting( 'sellerlinx_custom_main_menu', array(
+		'default'           	=> apply_filters( 'sellerlinx_default_custom_main_manu', 'default' ),
+	) );
+
+	$wp_customize->add_control( 'sellerlinx_custom_main_menu', array(
+		'label'	   				=> __( 'Main Menu Option', 'storefront' ),
+		'section'  				=> 'storefront_customizations',
+		'settings' 				=> 'sellerlinx_custom_main_menu',
+		'priority' 				=> 10,
+		'type'     => 'radio',
+		'choices'  => array(
+			'default'  => 'Alphabetical Ascending',
+			'custom'  => 'Custom',
 		)
 	) );
 

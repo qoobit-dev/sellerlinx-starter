@@ -123,7 +123,7 @@ class WC_innovext_allpay_aio extends WC_Payment_Gateway {
 				$stringify_array = ob_get_clean();
 				$message .= PHP_EOL . $stringify_array;
 			}
-			self::$log->add( 'allpay_aio_subscriptions', $message );
+			self::$log->add( 'allpay_aio', $message );
 		}
 	}
 

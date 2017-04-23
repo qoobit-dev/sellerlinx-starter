@@ -1,8 +1,8 @@
 === Allpay AIO for WooCommerce ===
 Contributors: innovext
 Tags: woocommerce, payment gateway, payment gateways, allpay, 歐付寶, 金流
-Requires at least: 3.5
-Tested up to: 4.1
+Requires at least: 4.1
+Tested up to: 4.7.3
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -63,17 +63,17 @@ WooCommerce 2.2 以上
 7.	開始進行設定
 
 == Frequently Asked Questions ==
-= 測試說明 =
 
 = 設定測試商家 =
 到WooCommerce->設定->結帳->歐付寶/綠界全方位金流，填入測試的**商店代號、HashKey、HashIV**,
 
-= 歐付寶測試後台 =
+= 測試後台 =
+歐付寶
 http://vendor-stage.allpay.com.tw/
 帳號 StageTest
 密碼 test1234
 
-= 綠界測試後台 =
+綠界
 http://vendor-stage.ecpay.com.tw/
 帳號 StageTest
 密碼 test1234
@@ -83,7 +83,8 @@ http://vendor-stage.ecpay.com.tw/
 信用卡測試安全碼 222 
 信用卡測試有效年月: 請設定大於測試時間。假如您的測試時間在 2013 年 11 月 26 號，該筆交易的信用卡有效年月請設定 2013 年 11 月以後，因為系統會判斷有效年月是否已過期，已過期則會回應刷卡失敗。
 
-更多詳細金流資訊請至 [歐付寶](https://www.allpay.com.tw/) 或 [綠界](https://www.ecpay.com.tw/) 查詢
+= 更多詳細金流資訊 =
+請至 [歐付寶](https://www.allpay.com.tw/) 或 [綠界](https://www.ecpay.com.tw/) 查詢
 
 = WebATM測試 =
 請選擇台新銀行，有模擬付款
@@ -116,3 +117,6 @@ add hook - innovext_allpay_before_process_rtn_code
 
 v1.1.1
 fixed - missing ECpay logo
+
+v1.1.2
+fixed - static function call issue

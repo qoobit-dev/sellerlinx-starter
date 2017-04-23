@@ -10,8 +10,12 @@
  *
  */
 add_action( 'sellerlinx_meta', 'sellerlinx_seo', 10 );
-add_action( 'storefront_header', 'sellerlinx_home_videos', 10 );
-add_action( 'storefront_before_content', 'sellerlinx_home_banners', 10 );
+if(is_front_page()){
+	add_action( 'storefront_header', 'sellerlinx_home_videos', 10 );	
+	add_action( 'storefront_before_content', 'sellerlinx_home_banners', 10 );
+}
+ 
+
 //add_action( 'storefront_before_content', 'storefront_header_widget_region', 10 );
 //add_action( 'storefront_sidebar',        'storefront_get_sidebar',          10 );
 add_action( 'woocommerce_before_single_product_summary', 'sellerlinx_show_product_images', 20 );

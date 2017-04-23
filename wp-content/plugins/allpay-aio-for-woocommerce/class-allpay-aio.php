@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Plugin Name: Allpay AIO for Woocommerce
  * Plugin URI: http://innovext.com
  * Description: Woocommerce 歐付寶/綠界全方位金流模組
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author URI: contact@innovext.com
  * Author: 因創科技
  */

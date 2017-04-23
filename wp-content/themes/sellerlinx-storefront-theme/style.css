@@ -16,15 +16,41 @@ FontAwesome License: SIL Open Font License - http://scripts.sil.org/OFL
 Images License: GNU General Public License v2 or later
 */
 
+a{
+	font-weight: 400;
+}
+.site-header{
+	padding: 10px 0px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+
+
+
 .main-navigation{
 	display: none;
 }
 .category-navigation{
 	display: block;
 }
+.secondary-navigation .menu a{
+	margin-bottom: 0px;
+	margin-right: 10px;
+}
 .woocommerce-active .site-header .site-search{
  	float:left;
+ 	padding-top:2px;
 }	
+.secondary-navigation .menu a{
+	padding: 10px 10px;
+}
+.site-search .widget_product_search form:before{
+	top:6px;
+	left:10px;
+}
+.site-search .widget_product_search input[type=search], .site-search .widget_product_search input[type=text]{
+	padding: 5px 5px 5px 30px;
+}
 
 .woocommerce-active .site-header .secondary-navigation{
 	float: right;
@@ -69,10 +95,6 @@ button.menu-toggle{
 	font-weight: normal;
 }
 
-.home.blog .site-header, .home.page:not(.page-template-template-homepage) .site-header, .home.post-type-archive-product .site-header, .no-wc-breadcrumb .site-header{
-	margin-bottom: 0px;
-}
-
 
 .banners{
 	position: relative;
@@ -82,6 +104,7 @@ button.menu-toggle{
 	background-position: center;
 	position: absolute;
 	z-index: 1;
+	display: none;
 	background-repeat: no-repeat;
 }
 .banner-video{
@@ -98,6 +121,7 @@ button.menu-toggle{
 	position: absolute;
 	width: 100%;
 	z-index: 3;
+	padding: 20px;
 }
 
 .banners.contained{
@@ -158,19 +182,36 @@ a.weibo-icon::before{
 	background-image: url(img/social.png);
 	background-position: -120px 0px;	
 }
-@media (max-width: 67.141em){
-	#content .col-full{
-		margin: 0 auto;
-		padding: 0 2.617924em;
-	}
+
+
+
+.woocommerce-tabs ul.tabs li{
+	padding: 0 30px;
+	float:left;
 }
 
-@media (max-width: 767px){
-	.site-footer{
-		margin-bottom: 70px;
-	}
+.single-product div.product .images, .single-product div.product .summary, .single-product div.product .woocommerce-product-gallery{
+	margin-bottom: 0px;
 }
+
+.home.blog .site-header, .home.page:not(.page-template-template-homepage) .site-header, .home.post-type-archive-product .site-header, .no-wc-breadcrumb .site-header{
+	margin-bottom: 0px;
+}
+
+
+
 @media (min-width: 768px){
+	
+	.site-header .site-branding {
+		margin-right: 20px;
+		margin-bottom: 10px;
+	}
+	.custom-logo-link, .site-branding, .site-header-cart, .site-logo-anchor, .site-logo-link, .site-search{
+		margin-bottom: 0px;
+	}
+	.secondary-navigation{
+		margin-bottom: 0px;
+	}
 	.woocommerce-active .site-header .site-search{
 	 	float:left;
 	 	
@@ -182,6 +223,16 @@ a.weibo-icon::before{
 	}
 
 
+	.main-navigation ul.menu>li>a, .main-navigation ul.nav-menu>li>a{
+		padding: 10px 20px;
+	}
+	.site-header-cart .cart-contents{
+		padding:  10px 0px;
+	}
+
+	.woocommerce-breadcrumb{
+		padding: 10px 99em;
+	}
 
 
 	/** 
@@ -197,5 +248,71 @@ a.weibo-icon::before{
 	.woocommerce-active .facebook-site-header .secondary-navigation{
 		margin-right: 50px;
 		width: 250px;
+	}
+
+
+	.woocommerce-tabs{
+		padding-top: 0px;
+	}
+	.storefront-full-width-content .woocommerce-tabs ul.tabs{
+		width:100%;
+		float: none;
+		border-bottom: 1px solid rgba(0,0,0,.05);
+	}
+	.storefront-full-width-content .woocommerce-tabs ul.tabs:after{
+		clear: both;
+		display: block;
+		content:'';
+	}
+	.storefront-full-width-content .woocommerce-tabs .panel{
+		width: 100%;
+		float: none;
+		clear: both;
+		padding-top:20px;
+	}
+
+	.single-product div.product .images .thumbnails:after, .single-product div.product .woocommerce-tabs, .storefront-full-width-content.single-product div.product .woocommerce-tabs, .storefront-sorting:after{
+		clear: none;
+		width: 70%;
+		float:left;
+	}
+	.storefront-full-width-content.single-product div.product .summary{
+		width:25%;
+	}
+}
+
+@media (max-width: 67.141em) and (min-width: 568px){
+	.woocommerce-breadcrumb{
+		padding-left: 2.618rem;
+	    padding-right: 2.618rem;
+	}
+}
+
+@media (max-width: 67.141em){
+	#content .col-full{
+		margin: 0 auto;
+		padding: 0 2.617924em;
+	}
+}
+
+
+@media (max-width: 767px){
+	.site-footer{
+		margin-bottom: 70px;
+	}
+
+	.woocommerce-tabs ul.tabs li{
+		padding: 0 20px;
+	}
+
+	.main-navigation ul li a{
+		padding: 5px 0;
+	}
+	.site-header .custom-logo-link img, .site-header .site-logo-anchor img, .site-header .site-logo-link img{
+		max-height: 44px;
+		
+	}
+	.home.blog .site-header, .home.page:not(.page-template-template-homepage) .site-header, .home.post-type-archive-product .site-header, .no-wc-breadcrumb .site-header{
+		padding-bottom: 10px;
 	}
 }

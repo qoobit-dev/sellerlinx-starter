@@ -3,7 +3,7 @@
  * Plugin Name: Woo Checkout Field Editor Pro
  * Description: Customize WooCommerce checkout fields(Add, Edit, Delete and re-arrange fields).
  * Author:      ThemeHiGH
- * Version:     1.1.4
+ * Version:     1.1.6
  * Author URI:  http://www.themehigh.com
  * Plugin URI:  http://www.themehigh.com
  * Text Domain: thwcfd
@@ -12,7 +12,17 @@
  
 if(!defined( 'ABSPATH' )) exit;
 
-if(in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+if (!function_exists('is_woocommerce_active')){
+	function is_woocommerce_active(){
+	    $active_plugins = (array) get_option('active_plugins', array());
+	    if(is_multisite()){
+		   $active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', array()));
+	    }
+	    return in_array('woocommerce/woocommerce.php', $active_plugins) || array_key_exists('woocommerce/woocommerce.php', $active_plugins);
+	}
+}
+
+if(is_woocommerce_active()) {
 	load_plugin_textdomain( 'thwcfd', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	/**
@@ -250,7 +260,7 @@ if(in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get
 		foreach(WC()->checkout->checkout_fields as $fieldset_key => $fieldset){
 
 			// Skip shipping if its not needed
-			if($fieldset_key === 'shipping' && (WC()->cart->ship_to_billing_address_only() || !empty($posted['shiptobilling']) || 
+			if($fieldset_key === 'shipping' && (wc_ship_to_billing_address_only() || !empty($posted['shiptobilling']) || 
 			(!WC()->cart->needs_shipping() && get_option('woocommerce_require_shipping_address') === 'no'))){
 				continue;
 			}
@@ -311,7 +321,11 @@ if(in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get
 	 * @param  object $order
 	 */
 	function thwcfd_order_details_after_customer_details_lite($order){
-		$order_id = $order->id;				
+		if(thwcfd_woocommerce_version_check()){
+			$order_id = $order->get_id();	
+		}else{
+			$order_id = $order->id;
+		}
 		
 		$fields = array();		
 		if(!wc_ship_to_billing_address_only() && $order->needs_shipping_address()){
@@ -340,5 +354,14 @@ if(in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get
 		}
 	}
 	add_action('woocommerce_order_details_after_customer_details', 'thwcfd_order_details_after_customer_details_lite', 20, 1);
-
+	
+	function thwcfd_woocommerce_version_check( $version = '3.0' ) {
+	  	if(function_exists( 'is_woocommerce_active' ) && is_woocommerce_active() ) {
+			global $woocommerce;
+			if( version_compare( $woocommerce->version, $version, ">=" ) ) {
+		  		return true;
+			}
+	  	}
+	  	return false;
+	}
 }

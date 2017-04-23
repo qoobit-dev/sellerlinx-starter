@@ -28,14 +28,69 @@ if ( ! function_exists( 'sellerlinx_seo' ) ) {
 	 * @return void
 	 */
 	function sellerlinx_seo() {
+$title = '';
+$default_title = get_bloginfo('name');
+$description = '';
+$image ='';
+$default_description = get_bloginfo('description');
+$default_image = get_theme_mod( 'sellerlinx_icon_url' );
+$url = '';
+if((is_single() || is_page())&&!is_front_page() ){
+	if ( have_posts() ) :
+		while ( have_posts() ) : the_post();
+			
+			$full_image = get_post_meta(get_the_ID(),'image_url',true);
+			$thumbnail_image = get_post_meta(get_the_ID(),'thumbnail_url',true);
+
+			$title_override = get_post_meta(get_the_ID(),'seo_title',true);
+			$description_override = get_post_meta(get_the_ID(),'seo_description',true);
+
+			if(!empty($thumbnail_image)) $image = $thumbnail_image;
+			else if(!empty($full_image)) $image = $full_image;
+
+			$title = get_the_title()." &#8211; ".$default_title;
+			$ex=addslashes(strip_tags(get_the_excerpt(get_the_ID())));
+			$url = get_the_permalink();	
+
+			if(strlen($ex)>0){
+				$description= htmlspecialchars($ex);
+			}
+
+			if(!empty($title_override)) $title = $title_override;
+			if(!empty($description_override)) $description = $description_override;
+
+		endwhile;
+	endif;
+}
+else{
+	$title = $default_title." &#8211; ".$default_description;
+	if ( have_posts() ) :
+		while ( have_posts() ) : the_post();
+			$full_image = get_post_meta(get_the_ID(),'image_url',true);
+			$thumbnail_image = get_post_meta(get_the_ID(),'thumbnail_url',true);
+
+			$title_override = get_post_meta(get_the_ID(),'seo_title',true);
+			$description_override = get_post_meta(get_the_ID(),'seo_description',true);
+			if(!empty($thumbnail_image)) $image = $thumbnail_image;
+			else if(!empty($full_image)) $image = $full_image;
+
+			if(!empty($title_override)) $title = $title_override;
+			if(!empty($description_override)) $description = $description_override;
+			$url = get_the_permalink();	
+		endwhile;
+	endif;
+}
+
+if(strlen($description)==0) $description=$default_description;
+if(strlen($image)==0) $image=$default_image;
 		?>
-<meta name="description" content="" />
-<meta property="og:title" content=""/>
-<meta property="og:site_name" content="" />
+<meta name="description" content="<?php echo $description;?>" />
+<meta property="og:title" content="<?php echo $title;?>"/>
+<meta property="og:site_name" content="<?php echo $default_title;?>" />
 <meta property="og:type" content="article"/>
-<meta property="og:image" content=""/>
-<meta property="og:url" content=""/>
-<meta property="og:description" content=""/>
+<meta property="og:image" content="<?php echo $image;?>"/>
+<meta property="og:url" content="<?php echo $url;?>"/>
+<meta property="og:description" content="<?php echo $description;?>"/>
 <?php
 	}
 
@@ -53,10 +108,10 @@ if ( ! function_exists( 'sellerlinx_home_videos' ) ) {
 	 */
 	function sellerlinx_home_videos() {
 		$height = get_theme_mod( 'sellerlinx_banner_height' ); 
-		$banner_size = get_theme_mod( 'sellerlinx_banner_size' ); 
+		$mobile_height = get_theme_mod( 'sellerlinx_mobile_banner_height' ); 
 		?>
 <script>
-
+var bannerSize = new Array();
 var videoPlayers = new Array();
 var codes = new Array();
 var videoCount = 0;
@@ -76,67 +131,70 @@ function videoResize(){
     var l = 0;
     
 
+    for(var i=0;i<bannerCount;i++){
+    	if(bannerSize[i]=="100% auto"){
+			w = windowWidth;
+		    h = w/videoAspect;
+		    l = 0;
 
-    <?php if($banner_size=="100% auto"): ?>
-	w = windowWidth;
-    h = w/videoAspect;
-    l = 0;
+		    //vertical align to top
+		    t = (bannerHeight - h) / 2;
 
-    //vertical align to top
-    t = (bannerHeight - h) / 2;
+		    jQuery("#video-"+i).css("top",t+"px");
+		    jQuery("#video-"+i).css("left",l+"px");
+		    jQuery("#video-"+i).css("height",h+"px");
+		    jQuery("#video-"+i).css("width",w+"px");
+		    jQuery("#video-"+i).css("min-width",w+"px");
+    	}
+		else if(bannerSize[i]=="auto 100%"){
+			h = bannerHeight;
+			w = h*videoAspect;
+			t = 0;
+			
+		    //vertical align to top
+		    l = (bannerWidth - w) / 2;
 
-    jQuery(".banner-video").css("top",t+"px");
-    jQuery(".banner-video").css("left",l+"px");
-    jQuery(".banner-video").css("height",h+"px");
-    jQuery(".banner-video").css("width",w+"px");
-    jQuery(".banner-video").css("min-width",w+"px");
-	<?php elseif($banner_size=="auto 100%"): ?>
-	h = bannerHeight;
-	w = h*videoAspect;
-	t = 0;
-	
-    //vertical align to top
-    l = (bannerWidth - w) / 2;
+		    jQuery("#video-"+i).css("top",t+"px");
+		    jQuery("#video-"+i).css("left",l+"px");
+		    jQuery("#video-"+i).css("height",h+"px");
+		    jQuery("#video-"+i).css("width",w+"px");
+		    jQuery("#video-"+i).css("min-width",w+"px");
+		}
+		else if(bannerSize[i]=="auto"){
+			t = 0;
+			l = 0;
+			jQuery("#video-"+i).css("top",t+"px");
+		    jQuery("#video-"+i).css("left",l+"px");
+		    jQuery("#video-"+i).css("height","100%");
+		    jQuery("#video-"+i).css("width","100%");
+		    jQuery("#video-"+i).css("min-width","100%");
+		}
+		else if(bannerSize[i]=="cover"){
+			w = bannerWidth;
+			h = bannerWidth/videoAspect;
+			//need to crop top bottom
+		    if(Math.ceil(h)>jQuery(".banners").height()){
+		    	l = 0;
+		    	t = -(h-jQuery(".banners").height())/2;
+		    }
+		    //need to crop left right
+		    else{
+		    	h = bannerHeight;
+		    	w = h*videoAspect;
 
-    jQuery(".banner-video").css("top",t+"px");
-    jQuery(".banner-video").css("left",l+"px");
-    jQuery(".banner-video").css("height",h+"px");
-    jQuery(".banner-video").css("width",w+"px");
-    jQuery(".banner-video").css("min-width",w+"px");
-	<?php elseif($banner_size=="auto"): ?>
-	t = 0;
-	l = 0;
-	jQuery(".banner-video").css("top",t+"px");
-    jQuery(".banner-video").css("left",l+"px");
-    jQuery(".banner-video").css("height","100%");
-    jQuery(".banner-video").css("width","100%");
-    jQuery(".banner-video").css("min-width","100%");
-	<?php elseif($banner_size=="cover"): ?>
-	w = bannerWidth;
-	h = bannerWidth/videoAspect;
-	//need to crop top bottom
-    if(Math.ceil(h)>jQuery(".banners").height()){
-    	l = 0;
-    	t = -(h-jQuery(".banners").height())/2;
+		    	t = 0;
+		    	l = -(w-jQuery(".banners").width())/2;
+		    }
+
+		    jQuery("#video-"+i).css("top",t+"px");
+		    jQuery("#video-"+i).css("left",l+"px");
+		    jQuery("#video-"+i).css("height",h+"px");
+		    jQuery("#video-"+i).css("width",w+"px");
+		    jQuery("#video-"+i).css("min-width",w+"px");
+		}
+		
     }
-    //need to crop left right
-    else{
-    	h = bannerHeight;
-    	w = h*videoAspect;
-
-    	t = 0;
-    	l = -(w-jQuery(".banners").width())/2;
-    }
-
-    jQuery(".banner-video").css("top",t+"px");
-    jQuery(".banner-video").css("left",l+"px");
-    jQuery(".banner-video").css("height",h+"px");
-    jQuery(".banner-video").css("width",w+"px");
-    jQuery(".banner-video").css("min-width",w+"px");
-    <?php endif;?>
-
-	
-
+    
 }
 jQuery(document).ready(function(){videoResize();});
 jQuery(window).resize(function(){videoResize();});
@@ -233,6 +291,8 @@ jQuery(document).ready(function(){
 		//jQuery(".banner").hide();
 		//jQuery(".banners").children().first().show();	
 	}
+	jQuery(".banners").children().first().css("zIndex","3");	
+	jQuery(".banner").show();
 	});
 
 <?php $transition = get_theme_mod( 'sellerlinx_banner_transition'); ?>
@@ -316,6 +376,7 @@ if ( ! function_exists( 'sellerlinx_banner_css' ) ) {
 	 */
 	function sellerlinx_banner_css() {
 		$height = get_theme_mod( 'sellerlinx_banner_height' ); 
+		$mobile_height = get_theme_mod( 'sellerlinx_mobile_banner_height' ); 
 		$banner_size = get_theme_mod( 'sellerlinx_banner_size' ); 
 		?>
 <!-- SELLERLINX BANNER CSS !-->
@@ -326,6 +387,15 @@ if ( ! function_exists( 'sellerlinx_banner_css' ) ) {
 .banner{
 	height:<?php echo $height;?>px;
 	background-size: <?php echo $banner_size;?>;
+}
+@media (max-width: 767px){
+	.banners{
+		height:<?php echo $mobile_height;?>px;
+	}
+	.banner{
+		height:<?php echo $mobile_height;?>px;
+		background-size: <?php echo $banner_size;?>;
+	}
 }
 </style>
 <?php 
@@ -366,7 +436,22 @@ if ( ! function_exists( 'sellerlinx_google_analytics' ) ) {
 	 * @return void
 	 */
 	function sellerlinx_google_analytics() {
-		echo get_theme_mod( 'sellerlinx_google_analytics' );
+
+		$trackingCode = get_theme_mod( 'sellerlinx_google_analytics' );
+		if(!empty($trackingCode)):
+		?>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '<?php echo $trackingCode;?>', 'auto');
+  ga('send', 'pageview');
+
+</script>
+		<?php
+		endif;
 	}
 }
 
@@ -459,32 +544,67 @@ if ( ! function_exists( 'storefront_product_category_navigation' ) ) {
 
 		<nav id="site-navigation" class="main-navigation category-navigation" role="navigation" aria-label="Primary Navigation">
 			<button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false"><span>&nbsp;</span></button>
+
+
 			<div class="primary-navigation">
-				<ul id="menu-primary-menu" class="menu">
+				
+				<?php if(get_theme_mod('sellerlinx_custom_main_menu')=='default'):?>
+				<?php storefront_alphabetic_category_menu();?>
+				<?php else:?>
+				<?php 
+
+					$args = array('menu'=>'Custom Main Menu',
+						'fallback_cb'=>'storefront_alphabetic_category_menu',
+						'echo'=>FALSE);
+					$menu = wp_nav_menu($args);
+					if(!empty($menu)) echo $menu;
+				?>
+				<?php endif;?>
+				
+			</div>
+
+
+		</nav>
+		
+		<!-- #site-navigation -->
+
+		<?php
+	}
+}
+
+if ( ! function_exists( 'storefront_alphabetic_category_menu' ) ) {
+	/**
+	 * Display Alphabetical Category Navigation
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	function storefront_alphabetic_category_menu() {?>
+		<ul id="menu-primary-menu" class="menu">
 			<?php
 
-			  $taxonomy     = 'product_cat';
-			  $orderby      = 'name';  
-			  $show_count   = 0;      // 1 for yes, 0 for no
-			  $pad_counts   = 0;      // 1 for yes, 0 for no
-			  $hierarchical = 1;      // 1 for yes, 0 for no  
-			  $title        = '';  
-			  $empty        = 0;
+			$taxonomy     = 'product_cat';
+			$orderby      = 'name';  
+			$show_count   = 0;      // 1 for yes, 0 for no
+			$pad_counts   = 0;      // 1 for yes, 0 for no
+			$hierarchical = 1;      // 1 for yes, 0 for no  
+			$title        = '';  
+			$empty        = 0;
 
-			  $args = array(
-			         'taxonomy'     => $taxonomy,
-			         'orderby'      => $orderby,
-			         'show_count'   => $show_count,
-			         'pad_counts'   => $pad_counts,
-			         'hierarchical' => $hierarchical,
-			         'title_li'     => $title,
-			         'hide_empty'   => $empty
-			  );
-			 $all_categories = get_categories( $args );
+			$args = array(
+				'taxonomy'     => $taxonomy,
+				'orderby'      => $orderby,
+				'show_count'   => $show_count,
+				'pad_counts'   => $pad_counts,
+				'hierarchical' => $hierarchical,
+				'title_li'     => $title,
+				'hide_empty'   => $empty
+			);
+			$all_categories = get_categories( $args );
 			
-			 foreach ($all_categories as $cat) {
+			foreach ($all_categories as $cat) {
 			    if($cat->category_parent == 0) {
-			        $category_id = $cat->term_id;   
+			        $category_id = $cat->term_id; 
 			        $args2 = array(
 			                'taxonomy'     => $taxonomy,
 			                'child_of'     => 0,
@@ -519,33 +639,7 @@ if ( ! function_exists( 'storefront_product_category_navigation' ) ) {
 			    }       
 			}
 			?>
-				</ul>
-			</div>
-		</nav>
-		<?php
-		/*
-		<div class="storefront-primary-navigation"> <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="Primary Navigation">
-<button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false"><span>Menu</span></button>
-<div class="primary-navigation">
-	<ul id="menu-primary-menu" class="menu">
-		<li id="menu-item-56" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-4 current_page_item menu-item-has-children menu-item-56">
-			<a href="https://sandbox.qoobit.com/wordpress/">Shop</a>
-			<ul class="sub-menu">
-				<li id="menu-item-80" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-80">
-					<a href="https://sandbox.qoobit.com/wordpress/shop/zzz/">zzz</a>
-				</li>
-			</ul>
-		</li>
-	</ul>
-</div><div class="handheld-navigation"><ul id="menu-user-menu-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-57"><a href="https://sandbox.qoobit.com/wordpress/my-account/">My Account</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-58"><a href="https://sandbox.qoobit.com/wordpress/checkout/">Checkout</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-59"><a href="https://sandbox.qoobit.com/wordpress/cart/">Cart</a></li>
-</ul></div> </nav> 
-
-*/
-		?>
-		<!-- #site-navigation -->
-
+		</ul>
 		<?php
 	}
 }
@@ -809,3 +903,48 @@ if ( ! function_exists( 'sellerlinx_show_product_images' ) ) {
 		</div><?php
 	}
 }
+if ( ! function_exists( 'woocommerce_template_summary_sale_price' ) ) {
+	function woocommerce_template_summary_sale_price() {
+		global $post, $product;
+
+		if ( $product->is_on_sale() ) : ?>
+		<?php echo apply_filters( 'woocommerce_sale_flash', '<span class="onsale">' . __( 'Sale!', 'woocommerce' ) . '</span>', $post, $product ); ?>
+<?php endif;
+
+    }
+}
+
+if ( ! function_exists( 'sellerlinx_sticky_product_summary' ) ) {
+	function sellerlinx_sticky_product_summary() {
+		?>
+		<script>
+		jQuery(document).ready(function(){
+			
+			if(jQuery(window).width() >= 768) { 
+				jQuery(".storefront-full-width-content.single-product div.product .summary").stick_in_parent({ 
+					
+					offset_top:20 
+				}); 
+			} 
+		});
+		
+		jQuery(window).on('resize', function(){ 
+			if(jQuery(window).width() < 768) { 
+				jQuery(".storefront-full-width-content.single-product div.product .summary").trigger("sticky_kit:detach"); 
+			} 
+			else 
+			{ 
+				jQuery(".storefront-full-width-content.single-product div.product .summary").stick_in_parent({ 
+					
+					offset_top: 20 
+				}); 
+			}
+		});
+		</script>
+		<?php
+	}
+}
+
+
+
+

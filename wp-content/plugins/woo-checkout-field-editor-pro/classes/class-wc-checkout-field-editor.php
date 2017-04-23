@@ -503,7 +503,7 @@ class WC_Checkout_Field_Editor {
 							$options['validate'] = '';
 						}
 												
-						if ( !isset( $options['required'] ) || $options['required'] == 1 ) {
+						if ( isset( $options['required'] ) && $options['required'] == 1 ) {
 							$options['required'] = '1';
 						} else {
 							$options['required'] = '0';
@@ -666,7 +666,7 @@ class WC_Checkout_Field_Editor {
 			$fields[$name]['type']    	  = empty( $f_types[$i] ) ? $o_type : wc_clean( $f_types[$i] );
 			$fields[$name]['label']   	  = empty( $f_labels[$i] ) ? '' : wp_kses_post( trim( stripslashes( $f_labels[$i] ) ) );
 			$fields[$name]['placeholder'] = empty( $f_placeholder[$i] ) ? '' : wc_clean( stripslashes( $f_placeholder[$i] ) );
-			$fields[$name]['options'] 	  = empty( $f_options[$i] ) ? array() : array_map( 'wc_clean', explode( '|', $f_options[$i] ) );
+			$fields[$name]['options'] 	  = empty( $f_options[$i] ) ? array() : array_map( 'wc_clean', explode( '|', trim(stripslashes($f_options[$i])) ) );
 			
 			$fields[$name]['class'] 	  = empty( $f_class[$i] ) ? array() : array_map( 'wc_clean', explode( ',', $f_class[$i] ) );
 			$fields[$name]['label_class'] = empty( $f_label_class[$i] ) ? array() : array_map( 'wc_clean', explode( ',', $f_label_class[$i] ) );

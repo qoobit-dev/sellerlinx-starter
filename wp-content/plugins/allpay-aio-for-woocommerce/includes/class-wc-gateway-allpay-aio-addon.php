@@ -25,7 +25,7 @@ if( !class_exists( 'Innvext_Allpay_AIO_Addon' ) ) {
 		 * @param object $order
 		 * @return void
 		 */
-		function display_order_info( $order ) {
+		static function display_order_info( $order ) {
 
 			if ( $order->payment_method !== 'innovext_allpay_aio' ) return;
 
@@ -61,7 +61,7 @@ if( !class_exists( 'Innvext_Allpay_AIO_Addon' ) ) {
 		 * @param object $order
 		 * @return void
 		 */
-		function view_order( $order_id ) {
+		static function view_order( $order_id ) {
 
 			$order = new WC_Order( $order_id );
 
@@ -100,7 +100,7 @@ if( !class_exists( 'Innvext_Allpay_AIO_Addon' ) ) {
 		 * 
 		 * @return void
 		 */
-		function cancel_unpaid_orders() {
+		static function cancel_unpaid_orders() {
 
 			$args = array(
 				'post_type'      => 'shop_order',
@@ -156,8 +156,10 @@ if( !class_exists( 'Innvext_Allpay_AIO_Addon' ) ) {
 
 		/**
 		 * Add cron schedules interval
+		 * 
+		 * @return void
 		 */		
-		function add_cancel_order_schedule( $schedules ) {
+		static function add_cancel_order_schedule( $schedules ) {
 
 			$allpay_aio_settings = get_option( 'woocommerce_innovext_allpay_aio_settings' );
 
@@ -175,8 +177,12 @@ if( !class_exists( 'Innvext_Allpay_AIO_Addon' ) ) {
 			return $schedules;
 		}
 
-		/* schedule the event */
-		function auto_update_order_schedule() {
+		/**
+		 * Schedule the event
+		 * 
+		 * @return void
+		 */
+		static function auto_update_order_schedule() {
 
 			$allpay_aio_settings = get_option( 'woocommerce_innovext_allpay_aio_settings' );
 
