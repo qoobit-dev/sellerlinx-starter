@@ -9,8 +9,17 @@
  * If you don't plan to dequeue the Storefront Core CSS you can remove the subsequent line and as well
  * as the sf_child_theme_dequeue_style() function declaration.
  */
-//add_action( 'wp_enqueue_scripts', 'sf_child_theme_dequeue_style', 999 );
 
+function wpb_adding_scripts() {
+    wp_register_script('sticky_kit', get_stylesheet_directory_uri() . '/js/jquery.sticky-kit.min.js', array('jquery'),'1.1.2', true);
+    wp_enqueue_script('sticky_kit');
+} 
+
+add_action( 'wp_enqueue_scripts', 'wpb_adding_scripts', 999 ); 
+
+//global integers for widget iteration
+$videoIndex = 0;
+$bannerIndex = 0;
 
 
 function wpsd_add_product_args() {
@@ -28,8 +37,6 @@ add_action( 'init', 'wpsd_add_product_args', 30 );
 /**
  * Dequeue the Storefront Parent theme core CSS
  */
-$videoIndex = 0;
-$bannerIndex = 0;
 function sf_child_theme_dequeue_style() {
     wp_dequeue_style( 'storefront-style' );
     wp_dequeue_style( 'storefront-woocommerce-style' );
@@ -49,6 +56,7 @@ function sf_child_remove_parent_theme_stuff() {
 	remove_action( 'storefront_header', 'storefront_site_branding', 20 );
 	remove_action( 'wp_head', 'wp_site_icon', 99 );
 	remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
+
 }
 
 /**
@@ -279,7 +287,6 @@ videoCount++;
 	
 	
     function update($new_instance, $old_instance) {
-
         $instance = $old_instance;
         $instance['title'] = strip_tags($new_instance['title']);
         $instance['content'] = stripslashes(wp_filter_post_kses($new_instance['content']));
@@ -294,9 +301,7 @@ videoCount++;
         $instance['anchor_position'] = stripslashes($new_instance['anchor_position']);
         $instance['size'] = stripslashes($new_instance['size']);
 
-
         return $instance;
-
     }
 
     function form($instance) {
@@ -363,11 +368,6 @@ videoCount++;
     }
 
 }
-
-
-
-
-
 
 
 

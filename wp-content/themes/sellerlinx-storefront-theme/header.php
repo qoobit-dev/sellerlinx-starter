@@ -32,6 +32,7 @@ else $isFacebookTemplate = false;
 </head>
 <?php do_action( 'before_body' ); ?>
 <body <?php body_class(); ?>>
+<?php if ( function_exists( 'gtm4wp_the_gtm_tag' ) ) { gtm4wp_the_gtm_tag(); } ?>
 <?php do_action( 'after_body' ); ?>
 <div id="page" class="hfeed site">
 	<?php
@@ -75,7 +76,15 @@ else $isFacebookTemplate = false;
 	 *
 	 * @hooked storefront_header_widget_region - 10
 	 */
-	do_action( 'storefront_before_content' ); ?>
+	do_action( 'storefront_before_content' ); 
+
+	if(is_front_page()){
+		do_action( 'sellerlinx_home_banners' ); 
+	}
+
+
+	?>
+
 
 	<div id="content" class="site-content" tabindex="-1">
 		<div class="col-full">

@@ -21,12 +21,7 @@ a{
 }
 .site-header{
 	padding: 10px 0px;
-	margin-bottom: 0px;
-	padding-bottom: 0px;
 }
-
-
-
 .main-navigation{
 	display: none;
 }
@@ -95,6 +90,11 @@ button.menu-toggle{
 	font-weight: normal;
 }
 
+.home.blog .site-header, .home.page:not(.page-template-template-homepage) .site-header, .home.post-type-archive-product .site-header, .no-wc-breadcrumb .site-header{
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+
 
 .banners{
 	position: relative;
@@ -121,7 +121,6 @@ button.menu-toggle{
 	position: absolute;
 	width: 100%;
 	z-index: 3;
-	padding: 20px;
 }
 
 .banners.contained{
@@ -193,11 +192,6 @@ a.weibo-icon::before{
 .single-product div.product .images, .single-product div.product .summary, .single-product div.product .woocommerce-product-gallery{
 	margin-bottom: 0px;
 }
-
-.home.blog .site-header, .home.page:not(.page-template-template-homepage) .site-header, .home.post-type-archive-product .site-header, .no-wc-breadcrumb .site-header{
-	margin-bottom: 0px;
-}
-
 
 
 @media (min-width: 768px){
@@ -307,12 +301,5 @@ a.weibo-icon::before{
 
 	.main-navigation ul li a{
 		padding: 5px 0;
-	}
-	.site-header .custom-logo-link img, .site-header .site-logo-anchor img, .site-header .site-logo-link img{
-		max-height: 44px;
-		
-	}
-	.home.blog .site-header, .home.page:not(.page-template-template-homepage) .site-header, .home.post-type-archive-product .site-header, .no-wc-breadcrumb .site-header{
-		padding-bottom: 10px;
 	}
 }
