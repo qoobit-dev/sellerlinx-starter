@@ -122,7 +122,7 @@ class WC_Checkout_Field_Editor {
 			$fields = $this->get_fields($type);
 			
 			foreach($fields as $name => $field){
-				if(!empty($field['custom']) && isset($posted[$name])){
+				if(isset($field['custom']) && $field['custom'] && isset($posted[$name])){
 					$value = wc_clean($posted[$name]);
 					if($value){
 						update_post_meta($order_id, $name, $value);
@@ -209,10 +209,10 @@ class WC_Checkout_Field_Editor {
                     <td>Class</td>
                     <td><input type="text" name="fclass" placeholder="Seperate classes with comma" style="width:250px;"/></td>
 				</tr>
-                <tr class="rowLabelClass">
+                <!--<tr class="rowLabelClass">
                     <td>Label Class</td>
                     <td><input type="text" name="flabelclass" placeholder="Seperate classes with comma" style="width:250px;"/></td>
-				</tr>                                   
+				</tr>-->                                   
                 <tr class="rowValidate">                    
                     <td>Validation</td>
                     <td>
@@ -302,10 +302,10 @@ class WC_Checkout_Field_Editor {
                     <td>Class</td>
                     <td><input type="text" name="fclass" placeholder="Seperate classes with comma" style="width:250px;"/></td>
 				</tr>
-                <tr class="rowLabelClass">
+                <!--<tr class="rowLabelClass">
                     <td>Label Class</td>
                     <td><input type="text" name="flabelclass" placeholder="Seperate classes with comma" style="width:250px;"/></td>
-				</tr>                                   
+				</tr>-->                                   
                 <tr class="rowValidate">                    
                     <td>Validation</td>
                     <td>
@@ -706,45 +706,5 @@ class WC_Checkout_Field_Editor {
 			echo '<div class="error"><p> ' . __( 'Your changes were not saved due to an error (or you made none!).', 'thwcfd' ) . '</p></div>';
 		}
 	}
-	
-	/*
-	function get_woocommerce_checkout_fields(){
-		$billing = array(
-				'billing_first_name', 
-				'billing_last_name', 
-				'billing_company', 
-				'billing_address_1', 
-				'billing_address_2', 
-				'billing_city', 
-				'billing_postcode', 
-				'billing_country', 
-				'billing_state', 
-				'billing_email', 
-				'billing_phone'
-			);
-		$shipping = array(
-				'shipping_first_name', 
-				'shipping_last_name', 
-				'shipping_company', 
-				'shipping_address_1', 
-				'shipping_address_2', 
-				'shipping_city', 
-				'shipping_postcode', 
-				'shipping_country', 
-				'shipping_state', 
-			);
-		$account = array(
-				'account_username', 
-				'account_password', 
-				'account_password-2', 
-			);
-		$order = array(
-				'order_comments', 
-			);
-	}
-	
-	function get_properties(){
-		$properties = array('type', 'label', 'placeholder', 'class', 'required', 'clear', 'label_class', 'options');
-	}
-	*/
+
 }

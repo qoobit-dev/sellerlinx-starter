@@ -79,6 +79,7 @@ var wcfd_settings = (function($, window, document) {
 		wcfd_clear_form(form);
 		form.find("input[name=fname]").val(tabName);
 		form.find("select[name=ftype]").change();
+		form.find("input[name=fclass]").val('form-row-wide');
 		
 	  	$( "#wcfd_new_field_form_pp" ).dialog( "open" );
 	}
