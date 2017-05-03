@@ -249,6 +249,7 @@ class WC_REST_Report_Sales_V1_Controller extends WC_REST_Controller {
 		$this->report = new WC_Report_Sales_By_Date();
 
 		if ( empty( $filter['period'] ) ) {
+
 			// Custom date range.
 			$filter['period'] = 'custom';
 
@@ -264,6 +265,7 @@ class WC_REST_Report_Sales_V1_Controller extends WC_REST_Controller {
 				$_GET['start_date'] = $_GET['end_date'] = date( 'Y-m-d', current_time( 'timestamp' ) );
 			}
 		} else {
+
 			$filter['period'] = empty( $filter['period'] ) ? 'week' : $filter['period'];
 
 			// Change "week" period to "7day".

@@ -765,13 +765,7 @@ class WC_Order extends WC_Abstract_Order {
 	 * @return string
 	 */
 	public function get_shipping_address_map_url() {
-		$address = $this->get_address( 'shipping' );
-
-		// Remove name and company before generate the Google Maps URL.
-		unset( $address['first_name'], $address['last_name'], $address['company'] );
-
-		$address = apply_filters( 'woocommerce_shipping_address_map_url_parts', $address, $this );
-
+		$address = apply_filters( 'woocommerce_shipping_address_map_url_parts', $this->get_address( 'shipping' ), $this );
 		return apply_filters( 'woocommerce_shipping_address_map_url', 'https://maps.google.com/maps?&q=' . urlencode( implode( ', ', $address ) ) . '&z=16', $this );
 	}
 
@@ -810,21 +804,11 @@ class WC_Order extends WC_Abstract_Order {
 	 * @return string
 	 */
 	public function get_formatted_shipping_address() {
-		if ( $this->has_shipping_address() ) {
+		if ( $this->get_shipping_address_1() || $this->get_shipping_address_2() ) {
 			return WC()->countries->get_formatted_address( apply_filters( 'woocommerce_order_formatted_shipping_address', $this->get_address( 'shipping' ), $this ) );
 		} else {
 			return '';
 		}
-	}
-
-	/**
-	 * Returns true if the order has a shipping address.
-	 *
-	 * @since  3.0.4
-	 * @return boolean
-	 */
-	public function has_shipping_address() {
-		return $this->get_shipping_address_1() || $this->get_shipping_address_2();
 	}
 
 	/*

@@ -1083,6 +1083,59 @@ add_action( 'rest_api_init', function () {
 
 
 
+/*
+ * Products REST 
+ */
+
+
+function sellerlinx_get_product_settings(  $request ) {
+
+    
+    $data = array();
+
+    $params = $request->get_params();
+
+    $data['product_id'] = $params['id'];
+    $data['product_image_url'] = get_post_meta(intval($params['id']),"image_url");
+    $data['product_thumbnail_url'] = get_post_meta(intval($params['id']),"thumbnail_url");
+
+    $response = new WP_REST_Response($data);
+    return $response;
+  
+}
+function sellerlinx_update_product_settings( $request) {
+
+    $json_input = json_decode(file_get_contents('php://input'));
+
+    $source_data = array();
+
+   
+    
+    $source_data['shipping_zone_methods'] = $json_input->shipping_zone_methods;
+    
+  
+
+
+    $response = new WP_REST_Response($source_data);
+    return $response;
+}
+
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'sellerlinx/v2', 'products/(?P<id>[\d]+)', array(
+     array(
+        'methods' => 'GET',
+        'callback' => 'sellerlinx_get_product_settings',
+        'permission_callback' => 'sellerlinx_auth',
+      ),
+      array(
+        'methods' => 'POST',
+        'callback' => 'sellerlinx_update_product_settings',
+        'permission_callback' => 'sellerlinx_auth',
+      )
+    )
+   );
+  
+});
 
 
 

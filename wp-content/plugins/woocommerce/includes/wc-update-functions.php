@@ -1020,18 +1020,7 @@ function wc_update_300_grouped_products() {
 				'post_type'      => 'product',
 				'fields'         => 'ids',
 			) );
-			update_post_meta( $parent_id, '_children', $children_ids );
-
-			// Update children to remove the parent.
-			$wpdb->update(
-				$wpdb->posts,
-				array(
-					'post_parent' => 0,
-				),
-				array(
-					'post_parent' => $parent_id,
-				)
-			);
+			add_post_meta( $parent_id, '_children', $children_ids, true );
 		}
 	}
 }

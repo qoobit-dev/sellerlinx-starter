@@ -324,12 +324,9 @@ final class WP_Customize_Selective_Refresh {
 		 */
 		if ( ! is_customize_preview() ) {
 			wp_send_json_error( 'expected_customize_preview', 403 );
-		} elseif ( ! isset( $_POST['partials'] ) ) {
+		} else if ( ! isset( $_POST['partials'] ) ) {
 			wp_send_json_error( 'missing_partials', 400 );
 		}
-
-		// Ensure that doing selective refresh on 404 template doesn't result in fallback rendering behavior (full refreshes).
-		status_header( 200 );
 
 		$partials = json_decode( wp_unslash( $_POST['partials'] ), true );
 

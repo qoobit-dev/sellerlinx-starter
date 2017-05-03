@@ -350,17 +350,16 @@ class WC_Order_Item_Product extends WC_Order_Item {
 	 * @return array
 	 */
 	public function get_item_downloads() {
-		$files      = array();
-		$product    = $this->get_product();
-		$order      = $this->get_order();
-		$product_id = $this->get_variation_id() ? $this->get_variation_id() : $this->get_product_id();
+		$files   = array();
+		$product = $this->get_product();
+		$order   = $this->get_order();
 
 		if ( $product && $order && $product->is_downloadable() && $order->is_download_permitted() ) {
 			$data_store         = WC_Data_Store::load( 'customer-download' );
 			$customer_downloads = $data_store->get_downloads( array(
 				'user_email' => $order->get_billing_email(),
 				'order_id'   => $order->get_id(),
-				'product_id' => $product_id,
+				'product_id' => $this->get_variation_id() ? $this->get_variation_id() : $this->get_product_id(),
 			) );
 			foreach ( $customer_downloads as $customer_download ) {
 				$download_id = $customer_download->get_download_id();
@@ -368,12 +367,7 @@ class WC_Order_Item_Product extends WC_Order_Item {
 				if ( $product->has_file( $download_id ) ) {
 					$file                                  = $product->get_file( $download_id );
 					$files[ $download_id ]                 = $file->get_data();
-					$files[ $download_id ]['download_url'] = add_query_arg( array(
-						'download_file' => $product_id,
-						'order'         => $order->get_order_key(),
-						'email'         => urlencode( $order->get_billing_email() ),
-						'key'           => $download_id,
-					), trailingslashit( home_url() ) );
+					$files[ $download_id ]['download_url'] = $this->get_item_download_url( $download_id );
 				}
 			}
 		}

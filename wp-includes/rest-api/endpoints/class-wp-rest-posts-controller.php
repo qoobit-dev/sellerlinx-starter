@@ -1288,9 +1288,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// Can we read the parent if we're inheriting?
 		if ( 'inherit' === $post->post_status && $post->post_parent > 0 ) {
 			$parent = get_post( $post->post_parent );
-			if ( $parent ) {
-				return $this->check_read_permission( $parent );
-			}
+			return $this->check_read_permission( $parent );
 		}
 
 		/*
@@ -1395,7 +1393,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			// #38883).  In this case, shim the value based on the `post_date`
 			// field with the site's timezone offset applied.
 			if ( '0000-00-00 00:00:00' === $post->post_date_gmt ) {
-				$post_date_gmt = get_gmt_from_date( $post->post_date );
+				$post_date_gmt = date( 'Y-m-d H:i:s', strtotime( $post->post_date ) - ( get_option( 'gmt_offset' ) * 3600 ) );
 			} else {
 				$post_date_gmt = $post->post_date_gmt;
 			}

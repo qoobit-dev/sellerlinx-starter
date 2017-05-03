@@ -1026,7 +1026,9 @@ class WC_AJAX {
 		// Grab the order and recalc taxes
 		$order = wc_get_order( $order_id );
 		$order->calculate_taxes( $calculate_tax_args );
-		$order->calculate_totals( false );
+
+		// Return HTML items
+		$order = wc_get_order( $order_id );
 		include( 'admin/meta-boxes/views/html-order-items.php' );
 		wp_die();
 	}
@@ -1191,7 +1193,7 @@ class WC_AJAX {
 		}
 
 		if ( ! empty( $_GET['include'] ) ) {
-			$ids = array_intersect( $ids, (array) $_GET['include'] );
+			$ids = array_intersect( $ids, (array) $_GET['exclude'] );
 		}
 
 		if ( ! empty( $_GET['limit'] ) ) {
